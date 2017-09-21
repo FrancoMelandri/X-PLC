@@ -41,9 +41,12 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.xcomp
 bin
 obj
 CoCo/src/XPLC/Scanner.cs
 CoCo/src/XPLC/Parser.cs
+Compiler/Scanner.cs
+Compiler/Parser.cs
 
 

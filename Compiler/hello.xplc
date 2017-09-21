@@ -1,0 +1,174 @@
+// 
+// Hello world with some feature implemented by XPLC
+//
+
+BEGIN_PROGRAM
+
+BEGIN_MAIN
+
+BEGIN
+	//
+	// Increment MW1 di 1
+	//
+	LOAD MW1
+	ADD 1
+	STORE MW1
+END
+
+//
+// 
+BEGIN
+	LOAD I2.1
+	STORE M1.1
+END
+
+
+//
+// How to set an output bit
+BEGIN		
+	//	   I2.1    I2.2       O1.1
+	// ----| |-----| |--------()
+	//
+	// Set the output 1.1 if input 2.1 and 2.2 are ON
+	//
+	AND I2.1
+	AND I2.2
+	SET U1.1		
+END
+
+
+// ------------
+//
+// How to use a timer
+
+// Preset the timer value
+BEGIN
+	LOAD 100	
+	STORE TON1
+END
+
+// Start the timer if the input 1.1 is ON
+BEGIN
+	AND I1.1	
+	SET TON1
+END
+
+//
+// at the end of the timer set the memory bit 1.1
+BEGIN
+	AND TON1
+	SET M1.1
+END
+
+//
+// ------------
+
+
+//
+// Switch example
+BEGIN
+	LOAD MW0
+	SWITCH
+	CASE 1
+		LOAD 100
+		STORE MW2
+	END_CASE
+	CASE 2
+		LOAD 200
+		STORE MW2
+	END_CASE
+	CASE 3
+		LOAD 300
+		STORE MW2
+	END_CASE
+	END_SWITCH
+	NOP
+END
+
+
+
+//
+// IF THEN ELSE
+//
+//
+// IF  MW0 >= 100 THEN
+// 		MW4 = 9999
+// ELSE
+//		MW4 = 0
+//
+BEGIN
+	LOAD MW0
+	GE 100
+	BEGIN_THEN
+		LOAD 9999
+		STORE MW4
+	END_THEN
+	BEGIN_ELSE
+		LOAD 0
+		STORE MW4
+	END_ELSE
+	NOP
+END
+
+
+
+//     I2.0   I2.1        M6.0
+// ----| |----| |---------()
+//                  |
+//     I2.2   I2.3  |
+// ----| |----| |---
+//
+BEGIN
+	(
+		AND I2.0
+		OR I2.1
+	)
+	OR 
+	(
+		AND I2.2
+		OR I2.3
+	)
+	STORE M6.0
+END
+
+
+
+
+//
+// Flow control with GOTO
+BEGIN(:00)
+	LOAD MW0
+	EQ 100
+	BEGIN_THEN
+		GOTO :01
+	END_THEN
+	BEGIN_ELSE
+		GOTO :02
+	END_ELSE
+	NOP
+END
+
+BEGIN(:01)
+	LOAD 200
+	STORE MW2
+END
+
+BEGIN
+	RESTART
+END
+
+BEGIN(:02)
+	LOAD 300
+	STORE MW2
+END
+
+END_MAIN
+
+BEGIN_PROCEDURES
+
+PROCEDURE(:01)
+END_PROCEDURE
+
+END_PROCEDURES
+
+END_PROGRAM
