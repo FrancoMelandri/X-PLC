@@ -1,0 +1,1576 @@
+COMPILER XPLC
+	
+	public enum XPLCTypes
+	{
+		XPLC_M,					// bit memory
+		XPLC_MW,				// word memory
+		XPLC_MD,				// double memory
+		XPLC_U,					// bit output
+		XPLC_I,					// bit input
+		XPLC_TON,				// TON
+		XPLC_C_RE,				// Counter raising edge
+		XPLC_C_FE,			
+		XPLC_C_HL,
+		XPLC_C_LL,
+		XPLC_MB,
+		XPLC_E,
+		XPLC_EB,
+		XPLC_EW,
+		XPLC_ED,
+		XPLC_IW,
+		XPLC_TONS,
+		XPLC_MR,
+		XPLC_IR,
+		XPLC_CD_RE,
+		XPLC_CD_HL,
+		XPLC_REP,
+		XPLC_FEP,
+		XPLC_UB,
+		XPLC_UW,
+		XPLC_UR,
+		XPLC_IB,
+		XPLC_TOF,				// TOF
+		XPLC_TOFS,				// TOF in secondi
+		XPLC_TP,				// TP
+		XPLC_TPS				// TP in secondi
+	}
+	
+	public const byte	op_LOAD				= 0x01;		// Load into accumulator
+	public const byte	op_SET				= 0x02;		// Set
+	public const byte	op_RESET			= 0x03;		// Reset
+	public const byte	op_STORE			= 0x04;		// Store 
+	public const byte	op_THEN				= 0x05;		// Then clause 
+	public const byte	op_ELSE				= 0x06;		// Else clause 
+	public const byte	op_MAIN				= 0x07;		// End main markup
+	public const byte	op_PROCEDURE		= 0x08;		// End procedure markup
+	public const byte	op_IS_ALARM_ACTIVE	= 0x09;		// Check if an alrm was active
+	public const byte	op_FIRSTLOOPBIT		= 0x0a;		// First loop bit
+	public const byte	op_SECONDTRIGGERBIT	= 0x0b;		// One second trigger bit
+	public const byte	op_TOGGLE			= 0x0c;		// Toggle
+	public const byte	op_VARIABLECHANGE	= 0x0d;		// Variable change
+	public const byte	op_LOADN			= 0x0e;		// Load the negate into accumulator
+	public const byte	op_STORE_VAR		= 0x0f;		// Store a variable
+
+	public const byte	op_NOP				= 0x50;		// No operation
+	public const byte	op_AND				= 0x51;		// And
+	public const byte	op_OR				= 0x52;		// Or
+	public const byte	op_ANDNOT			= 0x53;		// And not
+	public const byte	op_NOT				= 0x54;		// Not
+	public const byte	op_XOR				= 0x55;		// Ex or
+	public const byte	op_ORNOT			= 0x56;		// Or not
+	
+	public const byte	op_ADD				= 0x80;		// Add
+	public const byte	op_SUB				= 0x81;		// Subtract
+	public const byte	op_MUL				= 0x82;		// Multiple
+	public const byte	op_DIV				= 0x83;		// Divide
+	
+	public const byte	op_EQ				= 0xA0;		// Equal
+	public const byte	op_NEQ				= 0xA1;		// Not equal
+	public const byte	op_GT				= 0xA2;		// Greather then
+	public const byte	op_GE				= 0xA3;		// Greather or equal
+	public const byte	op_LT				= 0xA4;		// less then
+	public const byte	op_LE				= 0xA5;		// less or equal
+	public const byte	op_QUIT				= 0xA6;		// Quit
+	public const byte	op_GOTO				= 0xA7;		// Goto
+	public const byte	op_RESTART			= 0xA8;		// Restart from the beginning
+	public const byte	op_SWITCH			= 0xA9;		// Switch statement
+	public const byte	op_CASE				= 0xAA;		// Case statement
+	public const byte	op_IN				= 0xAB;		// In
+	public const byte	op_NIN				= 0xAC;		// Not In
+	public const byte	op_CALL				= 0xAD;		// Call a procedure
+		
+	public const byte	op_M				= 0xb0;		// bit memory
+	public const byte	op_MW				= 0xb1;		// word memory
+	public const byte	op_MD				= 0xb2;		// double word memory
+	public const byte	op_U				= 0xb3;		// output
+	public const byte	op_I				= 0xb4;		// input
+	public const byte	op_C				= 0xb5;		// Constant
+	public const byte	op_B				= 0xb6;		// Bool constant
+	public const byte	op_TON				= 0xb7;		// Timer ON
+	public const byte	op_C_RE				= 0xb8;		// Counter raise edge  
+	public const byte	op_C_FE				= 0xb9;		// Counter falling edge
+	public const byte	op_C_HL				= 0xbA;		// Counter High level   
+	public const byte	op_C_LL				= 0xbB;		// Counter low level   
+	public const byte	op_OPB				= 0xbC;		// Open bracket
+	public const byte	op_CLB				= 0xbD;		// Close bracket
+	public const byte	op_LABEL			= 0xbE;		// Label
+	public const byte	op_MB				= 0xbF;		// byte memory
+	public const byte	op_E				= 0xc0;		// bit eeprom
+	public const byte	op_EB				= 0xc1;		// byte eeprom
+	public const byte	op_EW				= 0xc2;		// word eeprom
+	public const byte	op_ED				= 0xc3;		// double word eeprom
+	public const byte   op_IW				= 0xc4;		// analog input
+	public const byte	op_UNISSIGNED		= 0xc5;		// Unissigned
+	public const byte	op_TONS				= 0xc6;		// Timer ON in seconds
+	public const byte	op_MR				= 0xc7;		// Real memory
+	public const byte	op_CR				= 0xc8;		// Constant in real format
+	public const byte   op_IR				= 0xc9;		// Analog input real
+	public const byte	op_CD_RE			= 0xca;		// Counter down raise edge  
+	public const byte	op_CD_HL			= 0xcb;		// Counter down High level  
+	public const byte	op_REP				= 0xcc;		// One cycle raising edge pulse
+	public const byte	op_FEP				= 0xcd;		// One cycle falling edge pulse
+	public const byte	op_UB				= 0xce;		// output byte
+	public const byte	op_UW				= 0xcf;		// output word
+	public const byte	op_UR				= 0xd0;		// output real
+	public const byte	op_IB				= 0xd1;		// input byte
+	public const byte	op_TOF				= 0xd2;		// Timer TOF
+	public const byte	op_TOFS				= 0xd3;		// Timer TOF in secondi
+	public const byte	op_TP				= 0xd4;		// Timer TP
+	public const byte	op_TPS				= 0xd5;		// Timer TP in secondi
+	
+	//
+	//   ---------------- 
+	//  |                 |  
+	//  |                 |  
+	//  |                 |  
+	//  |                 |  
+	//  |    PROGRAM      |  
+	//  |                 |  
+	//  |                 |  
+	//  |                 |  
+	//   ---------------- 
+	//  |                 |  
+	//  |                 |  
+	//  |                 |  
+	//  |   PROCEDURES    |  
+	//  |                 |  
+	//  |                 |  
+	//  |                 |  
+	//   -----------------
+	//
+	
+	//
+	// Output file stream
+	System.IO.MemoryStream					programStream;
+	System.IO.MemoryStream					proceduresStream;
+	System.IO.Stream						stream;
+
+	System.Collections.Hashtable 			procedures;
+	System.Collections.Hashtable 			symbols;
+	System.Collections.ArrayList			gotosPrograms;
+	System.Collections.ArrayList			calls;
+	System.Collections.ArrayList			gotosProcedures;
+	System.Collections.Hashtable			labelsPrograms;
+	System.Collections.Hashtable			labelsProcedures;
+	System.Collections.Hashtable			labels;
+	System.Collections.ArrayList			gotos;
+	
+	//
+	// Initialize the memory stream, the jump array and the procedure array
+	void initialize () {
+		programStream		= new System.IO.MemoryStream ();
+		proceduresStream	= new System.IO.MemoryStream ();
+		labelsPrograms 		= new System.Collections.Hashtable ();
+		labelsProcedures 	= new System.Collections.Hashtable ();
+		procedures 			= new System.Collections.Hashtable ();
+		symbols 			= new System.Collections.Hashtable ();
+		gotosPrograms		= new System.Collections.ArrayList ();
+		calls				= new System.Collections.ArrayList ();
+		gotosProcedures		= new System.Collections.ArrayList ();
+		gotos				= gotosPrograms;
+		labels				= labelsPrograms;
+		stream				= programStream;
+	}
+	
+	void beginProcedures() {
+		stream				= proceduresStream;
+		gotos				= gotosProcedures; 
+		labels				= labelsProcedures;
+	}
+	
+	//
+	// write the stream to the file
+	void deinitialize () {
+		System.IO.FileStream fs = new System.IO.FileStream ( this.scanner.fileName + ".xcomp", System.IO.FileMode.Create, System.IO.FileAccess.Write );
+		
+				
+		int offset =(int) programStream.Length;
+		
+		foreach ( Jump jmp in gotosPrograms ) {
+			if ( labelsPrograms.Contains ( jmp.label ) ) {
+				int posToGoto = Convert.ToInt32 ( labelsPrograms[jmp.label] );
+				programStream.Seek ( jmp.position, System.IO.SeekOrigin.Begin );
+				programStream.Write ( new byte[] {  (byte)( ( posToGoto & 0xFF000000 ) >> 24 ) }, 0, 1 );
+				programStream.Write ( new byte[] {  (byte)( ( posToGoto & 0x00FF0000 ) >> 16 ) }, 0, 1 );
+				programStream.Write ( new byte[] {  (byte)( ( posToGoto & 0x0000FF00 ) >> 8 ) }, 0, 1 );
+				programStream.Write ( new byte[] {  (byte)( ( posToGoto & 0x000000FF ) ) }, 0, 1 );
+			}
+			else {
+				errors.SemErr ( jmp.line, jmp.col, "ERROR: label " + jmp.label + " does not exist.");
+				return;				
+			}
+		}
+		
+		foreach ( Jump jmp in calls ) {
+			if ( procedures.Contains ( jmp.label ) ) {
+				int posToGoto = Convert.ToInt32 ( procedures[jmp.label] ) + offset;
+				programStream.Seek ( jmp.position, System.IO.SeekOrigin.Begin );
+				programStream.Write ( new byte[] {  (byte)( ( posToGoto & 0xFF000000 ) >> 24 ) }, 0, 1 );
+				programStream.Write ( new byte[] {  (byte)( ( posToGoto & 0x00FF0000 ) >> 16 ) }, 0, 1 );
+				programStream.Write ( new byte[] {  (byte)( ( posToGoto & 0x0000FF00 ) >> 8 ) }, 0, 1 );
+				programStream.Write ( new byte[] {  (byte)( ( posToGoto & 0x000000FF ) ) }, 0, 1 );
+			}
+			else  {
+				errors.SemErr ( jmp.line, jmp.col, "PROCEDURE: label " + jmp.label + " does not exist.");
+				return;				
+			}
+		}
+		programStream.Seek ( 0,  System.IO.SeekOrigin.Begin );		
+		programStream.WriteTo ( fs );
+		
+		
+		foreach ( Jump jmp in gotosProcedures ) {
+			if ( labelsProcedures.Contains ( jmp.label ) ) {
+				int posToGoto = Convert.ToInt32 ( labelsProcedures[jmp.label] ) + offset;
+				proceduresStream.Seek ( jmp.position, System.IO.SeekOrigin.Begin );
+				proceduresStream.Write ( new byte[] {  (byte)( ( posToGoto & 0xFF000000 ) >> 24 ) }, 0, 1 );
+				proceduresStream.Write ( new byte[] {  (byte)( ( posToGoto & 0x00FF0000 ) >> 16 ) }, 0, 1 );
+				proceduresStream.Write ( new byte[] {  (byte)( ( posToGoto & 0x0000FF00 ) >> 8 ) }, 0, 1 );
+				proceduresStream.Write ( new byte[] {  (byte)( ( posToGoto & 0x000000FF ) ) }, 0, 1 );
+			}
+			else {
+				errors.SemErr ( jmp.line, jmp.col, "ERROR: label " + jmp.label + " does not exist.");
+				return;				
+			}
+		}
+		proceduresStream.Seek ( 0,  System.IO.SeekOrigin.Begin );
+		proceduresStream.WriteTo ( fs );
+		
+		
+		fs.Close ();
+		fs.Dispose();
+		programStream.Close(); 
+		programStream.Dispose(); 
+		proceduresStream.Close(); 
+		proceduresStream.Dispose(); 
+	}
+	
+	void appendByte ( byte b ) {
+		stream.Write ( new byte[] { b }, 0, 1 );
+	}
+	void appendBytes ( byte[] b ) {
+		stream.Write ( b , 0, b.Length );
+	}
+	void appendBytes ( string s ) {
+		try	{
+			byte	byte0 = 0x00;
+			byte	byte1 = 0x00;
+			byte	byte2 = 0x00;
+			byte	byte3 = 0x00;
+			
+			if ( s == "True" || s == "False" ) {
+				if ( s == "True" )
+					byte3 = 0x01;
+			}
+			else {
+				int nPos = s.IndexOf ( '.' );
+				if ( nPos > 0 ) {
+					short mem   = Convert.ToInt16 ( s.Substring ( 0, nPos ) );
+					byte1 = (byte)( ( mem & 0xFF00 ) >> 8 );
+					byte2 = (byte)( (byte)( mem & 0x00FF ) );
+					byte3 = Convert.ToByte ( s.Substring ( nPos + 1 ) );
+				}
+				else {
+					nPos = s.IndexOf ( ',' );
+					if ( nPos > 0 ) {
+						float fVal = 0.0f;
+						try
+						{
+							fVal = Convert.ToSingle ( s );
+						}
+						catch
+						{
+							fVal = Convert.ToSingle ( s.Replace ( ",", "." ) );
+						}
+						byte[] bytes = BitConverter.GetBytes ( fVal );
+						byte0 = bytes[3];
+						byte1 = bytes[2];
+						byte2 = bytes[1];
+						byte3 = bytes[0];
+					}
+					else {
+						int mem = Convert.ToInt32 ( s );
+						byte0 = (byte)( ( mem & 0xFF000000 ) >> 24 );
+						byte1 = (byte)( ( mem & 0x00FF0000 ) >> 16 );
+						byte2 = (byte)( ( mem & 0x0000FF00 ) >> 8 );
+						byte3 = (byte)( ( mem & 0x000000FF ) );
+					}
+				}
+			}
+			appendByte ( byte0 );
+			appendByte ( byte1 );
+			appendByte ( byte2 );
+			appendByte ( byte3 );
+		}
+		catch {
+		}
+	}
+	
+	class Jump {
+		public string label;
+		public long position;
+		public int line;
+		public int col;
+		public Jump ( string label, long position, int line, int col ) {
+			this.label = label;
+			this.position = position;
+			this.line = line;
+			this.col = col;
+		}
+	}
+	void setLabel ( string s, int line, int col ) {
+		//
+		// Add to the array list the new jump position
+		if ( !labels.ContainsKey ( s ) ) {
+			labels.Add ( s, (int)stream.Position );
+		}
+		else
+			errors.Warning ( line, col, "Jump with label (:" + s + ") already defined!" );
+	}
+	
+	void setJump  ( string val, int line, int col ) {
+		gotos.Add ( new Jump ( val, stream.Position, line, col ) );
+		appendBytes ( new byte[] { 0x00, 0x00, 0x00, 0x00 } );
+	}
+	
+	void setProcedureLabel ( string s, int line, int col ) {
+		//
+		// Add to the array list the new jump position
+		if ( !procedures.ContainsKey ( s ) )
+			procedures.Add ( s, (int)stream.Position );
+		else
+			errors.Warning ( line, col, "Procedure with label (:" + s + ") already defined!" );
+	}
+	void setCall  ( string val, int line, int col ) {
+		calls.Add ( new Jump ( val, stream.Position, line, col ) );
+		appendBytes ( new byte[] { 0x00, 0x00, 0x00, 0x00 } );
+	}
+	
+	
+	class Symbol {
+		public byte type;
+		public string val;
+		public Symbol ( byte type, string val ){
+			this.type = type;
+			this.val = val;
+		} 
+	}
+	
+	string lastSymbol = "";
+	
+	void addSymbol ( string symbol ) {
+		lastSymbol = symbol;
+		if ( !symbols.ContainsKey ( symbol ) )
+			symbols.Add ( symbol, null );
+	}
+	void fixSymbol ( byte type, string val ) {
+		if ( symbols.ContainsKey ( lastSymbol ) )
+			symbols[lastSymbol] = new Symbol ( type, val );
+	}
+	void getSymbol ( string val, int line, int col ) {
+		if ( symbols.ContainsKey ( val ) )
+		{
+			Symbol symbol = (Symbol)symbols[val];
+			appendByte ( symbol.type ); 
+			appendBytes ( symbol.val );
+		}
+		else
+			errors.SemErr (line, col, "ERROR: symbol " + val + " was not defined.");
+	}
+	
+	System.Collections.Generic.Stack<long> _positions = new System.Collections.Generic.Stack<long> ();
+	void pushPosition () {
+		//
+		// mark two bytes to insert the dispalcement position
+		_positions.Push ( stream.Position );
+		appendBytes ( new byte[] { 0x00, 0x00 } );
+	}
+	void fixPosition () {
+		long pos = stream.Position;
+		long popPosition = _positions.Pop ();
+		long displacement = pos - popPosition - 2;
+		stream.Seek ( popPosition, System.IO.SeekOrigin.Begin );
+		appendByte ( (byte)((displacement & 0xff00 ) >> 8 ) );
+		appendByte ( (byte)((displacement & 0x00ff ) >> 0 ) );
+		stream.Seek ( 0, System.IO.SeekOrigin.End );
+	}
+	
+	
+CHARACTERS
+	bit					= "01234567".
+	digit				= "0123456789".
+	hexDigit			= digit + "ABCDEF".
+	letterUpp			= 'A' .. 'Z'.
+	letterLow			= 'a' .. 'z'.
+	eol					= '\r'.
+	noDigit				= ANY - digit.
+	chars				= letterUpp + letterLow + digit + '.' + '_' + '-'. 
+
+	
+TOKENS
+	number 				= digit {digit}
+						| "0x"hexDigit{hexDigit}.
+	real				= digit {digit} "," digit {digit}.
+	bool				= "False" | "True".
+	FIRSTLOOPBIT		= "FLB".
+	SECONDTRIGGERBIT	= "STB".
+	
+	//
+	// memory
+	UNISSIGNED			= "UNISSIGNED".
+	M					= "M" digit{digit} "." bit.
+	MB					= "MB" digit{digit}.
+	MW					= "MW" digit{digit}. 	
+	MD					= "MD" digit{digit}. 	
+	MR					= "MR" digit{digit}. 	
+	
+	//
+	// eeprom
+	E					= "E" digit{digit} "." bit.
+	EB					= "EB" digit{digit}.
+	EW					= "EW" digit{digit}. 	
+	ED					= "ED" digit{digit}. 	
+	
+	//
+	// I/O
+	U					= "U" digit{digit} "." bit.
+	UB					= "UB" digit{digit}.
+	UW					= "UW" digit{digit}.
+	UR					= "UR" digit{digit}.
+	I					= "I" digit{digit} "." bit.
+	IB					= "IB" digit{digit}.
+	IW					= "IW" digit{digit}.
+	IR					= "IR" digit{digit}.
+	
+	//
+	// timers
+	TON					= "TON" digit{digit}.
+	TONS				= "TONS" digit{digit}.
+	TOF					= "TOF" digit{digit}.
+	TOFS				= "TOFS" digit{digit}.
+	TP					= "TP" digit{digit}.
+	TPS					= "TPS" digit{digit}.
+	
+	//
+	// Pulses
+	REP					= "REP" digit{digit}.
+	FEP					= "FEP" digit{digit}.
+	
+	//
+	// counters
+	CRE					= "CRE" digit{digit}.
+	CFE					= "CFE" digit{digit}.
+	CHL					= "CHL" digit{digit}.
+	CLL					= "CLL" digit{digit}.
+	CDRE				= "CDRE" digit{digit}.
+	CDHL				= "CDHL" digit{digit}.
+	
+	
+	OPEN				= "(".
+	CLOSE				= ")".
+	label				= ":" digit{digit}.
+	
+	define 				= "#" chars{chars|digit}.
+
+	
+	
+COMMENTS FROM "//" TO "\r\n"
+COMMENTS FROM "/*" TO "*/" NESTED
+
+IGNORE '\r' + '\n' + '\t'
+
+	
+PRODUCTIONS
+			
+	XPLC		= "BEGIN_PROGRAM"				(. initialize (); 													.)
+				{
+					SYMBOLS
+				}
+				(
+					MAIN
+				)
+				{
+					PROCEDURES
+				}
+				"END_PROGRAM"					(. deinitialize (); 												.)
+				.
+			
+	SYMBOLS		= "SYMBOLS"
+				(
+					Equiv
+				)
+				"END_SYMBOLS"
+				.
+								
+				
+	MAIN		=  "BEGIN_MAIN" 			
+				{ 
+					Lines
+					|LabelLines
+				}				
+				"END_MAIN"						(. appendByte ( op_MAIN ); 											.)				
+				.
+			
+	PROCEDURES	= "BEGIN_PROCEDURES"			(. beginProcedures(); 												.)		
+				{
+					PROCEDURE
+				}
+				"END_PROCEDURES"			
+				.
+				
+	PROCEDURE	= "PROCEDURE(" 
+						label 					(. setProcedureLabel ( t.val.Substring ( 1 ), t.line, t.col ); 		.)
+						")"
+				{ 
+					Lines
+					|LabelLines
+				}				
+				"END_PROCEDURE"					(. appendByte ( op_PROCEDURE ); 									.)
+				.
+				
+	Lines		= "BEGIN" 
+				{ 
+					Line
+				}								
+				"END"													
+				.
+					 					
+	LabelLines	= "BEGIN(" 
+						label 					(. setLabel ( t.val.Substring ( 1 ), t.line, t.col ); 				.)
+						")" 
+				{ 
+					Line
+				}								
+				"END"													
+				.
+				
+	Line		= 							
+				( 
+					LoadLine
+					|LoadNLine
+					|FunctionLine
+					|AndLine
+					|AndNotLine
+					|OpenCloseLine
+					|NOP
+				) 						
+				.
+	
+	//
+	// a load/store line
+	//
+	LoadLine	= 
+				(
+					LOAD
+					{ 
+						Logic
+						| Arit
+						| If
+						| Switch
+					} 
+					( 
+						STORE
+						|SET
+						|RESET
+						|TOGGLE
+						|NOP
+					)
+				)
+				.
+				
+	//
+	// a loadN/store line
+	//
+	LoadNLine	= 
+				(
+					LOADN
+					{ 
+						Logic
+						| Arit
+						| If
+						| Switch
+					} 
+					( 
+						STORE
+						|SET
+						|RESET
+						|TOGGLE
+						|NOP
+					)
+				)
+				.
+				
+	//
+	// a function line
+	FunctionLine	= 
+				(
+					ISALARMACTIVE
+					{ 
+						Logic
+						| If
+					} 
+					( 
+						STORE
+						|SET
+						|RESET
+						|TOGGLE
+						|NOP
+					)
+					|VARIABLECHANGE
+					|STOREVAR
+				)
+				.
+
+	//
+	// And line
+	//
+	AndLine		= 
+				(
+					AND
+					{
+						Logic
+						| If
+					}
+					(
+						STORE
+						|SET
+						|RESET
+						|TOGGLE
+						|GOTO
+						|CALL
+						|RESTART
+						|NOP
+					)
+				)
+				.
+
+	//
+	// And Not line
+	//
+	AndNotLine	= 
+				(
+					ANDNOT
+					{
+						Logic
+						| If
+					}
+					(
+						STORE
+						|SET
+						|RESET
+						|TOGGLE
+						|GOTO
+						|CALL
+						|RESTART
+						|NOP
+					)
+				)
+				.
+	
+
+	//
+	// And line
+	//
+	AndLogicLine	= 
+				(
+					AND
+					{
+						Logic
+					}
+				)
+				.
+				
+	//
+	// And line
+	//
+	AndNotLogicLine	= 
+				(
+					ANDNOT
+					{
+						Logic
+					}
+				)
+				.
+				
+	//
+	// open close line
+	//
+	OpenCloseLine 	= 
+				(
+					{
+						OPEN						(. appendByte ( op_OPB ); 											.)
+						(
+							AndLogicLine
+							|AndNotLogicLine
+							|NestedOpenCloseLine
+						)
+						CLOSE						(. appendByte ( op_CLB ); 											.)
+						{
+							OR
+							|AND
+						}
+					}
+					(
+						STORE
+						|SET 
+						|RESET
+						|TOGGLE
+						|GOTO
+						|CALL
+						|RESTART
+					)
+				)
+				. 
+	//
+	// Nested open close line
+	//
+	NestedOpenCloseLine 	= 
+				(
+					{
+						OPEN						(. appendByte ( op_OPB ); 											.)
+						(
+							AndLogicLine
+							|AndNotLogicLine
+							|NestedOpenCloseLine
+						)
+						CLOSE						(. appendByte ( op_CLB ); 											.)
+						{
+							OR
+							|AND
+						}
+					}
+					(
+						NOP
+					)
+				)
+				. 
+				
+	//
+	// If then else paradigm
+	//
+	If			=	Flow
+				(
+					Then
+					Else
+				)
+				.
+				
+	Then		= "BEGIN_THEN"						(. pushPosition();													.)																									
+				{ 
+					Lines
+					|Line
+				}								
+				"END_THEN"							(. appendByte ( op_THEN );fixPosition();							.)
+				.
+				
+	Else		= "BEGIN_ELSE"						(. pushPosition();													.)																									
+				{ 
+					Lines
+					|Line
+				}								
+				"END_ELSE"							(. appendByte ( op_ELSE );fixPosition();							.)	
+				.
+	
+	
+	//
+	// If then else paradigm
+	//
+	Switch		= "SWITCH"							(. appendByte ( op_SWITCH ); 										.)
+				(
+					CASE
+					{
+					CASE
+					}
+				)
+				"END_SWITCH"						(. appendByte ( op_SWITCH ); 										.)
+				.
+				
+	CASE		= "CASE"							
+				(
+					number							(. appendByte ( op_C ); appendBytes ( t.val ); pushPosition();		.)
+					|real							(. appendByte ( op_CR ); appendBytes ( t.val ); pushPosition();		.)
+				)
+				{ 
+					Lines
+					|Line
+				}								
+				"END_CASE"							(. appendByte ( op_CASE );fixPosition();							.)	
+				.				
+			
+	//
+	// Equivalence
+	Equiv		= {
+						define 						(. addSymbol ( t.val ); 											.)
+						"=" 
+						(
+							M						(. fixSymbol ( op_M , t.val.Substring ( 1 ) ); 						.)
+							|MB						(. fixSymbol ( op_MB, t.val.Substring ( 2 ) );	 					.)
+							|MW						(. fixSymbol ( op_MW, t.val.Substring ( 2 ) );						.)
+							|MD						(. fixSymbol ( op_MD, t.val.Substring ( 2 ) );						.)
+							|MR						(. fixSymbol ( op_MR, t.val.Substring ( 2 ) );						.)
+							|E						(. fixSymbol ( op_E, t.val.Substring ( 1 ) ); 						.)
+							|EB						(. fixSymbol ( op_EB, t.val.Substring ( 2 ) ); 						.)					
+							|EW						(. fixSymbol ( op_EW, t.val.Substring ( 2 ) );						.)
+							|ED						(. fixSymbol ( op_ED, t.val.Substring ( 2 ) );						.)
+							|I						(. fixSymbol ( op_I, t.val.Substring ( 1 ) );						.)
+							|IB						(. fixSymbol ( op_IB, t.val.Substring ( 2 ) );						.)
+							|IW						(. fixSymbol ( op_IW, t.val.Substring ( 2 ) );						.)
+							|IR						(. fixSymbol ( op_IR, t.val.Substring ( 2 ) );						.)
+							|U						(. fixSymbol ( op_U, t.val.Substring ( 1 ) );						.)
+							|UB						(. fixSymbol ( op_UB, t.val.Substring ( 2 ) );						.)
+							|UW						(. fixSymbol ( op_UW, t.val.Substring ( 2 ) );						.)
+							|UR						(. fixSymbol ( op_UR, t.val.Substring ( 2 ) );						.)
+							|TON					(. fixSymbol ( op_TON, t.val.Substring ( 3 ) );						.)
+							|TONS					(. fixSymbol ( op_TONS, t.val.Substring ( 4 ) );					.)
+							|TOF					(. fixSymbol ( op_TOF, t.val.Substring ( 3 ) );						.)
+							|TOFS					(. fixSymbol ( op_TOFS, t.val.Substring ( 4 ) );					.)
+							|TP						(. fixSymbol ( op_TP, t.val.Substring ( 3 ) );						.)
+							|TPS					(. fixSymbol ( op_TPS, t.val.Substring ( 4 ) );						.)
+							|REP					(. fixSymbol ( op_REP, t.val.Substring ( 3 ) );						.)
+							|FEP					(. fixSymbol ( op_FEP, t.val.Substring ( 3 ) );						.)
+							|CRE					(. fixSymbol ( op_C_RE, t.val.Substring ( 3 ) );					.)
+							|CFE					(. fixSymbol ( op_C_FE, t.val.Substring ( 3 ) );					.)
+							|CHL					(. fixSymbol ( op_C_HL, t.val.Substring ( 3 ) );					.)
+							|CLL					(. fixSymbol ( op_C_LL, t.val.Substring ( 3 ) );					.)
+							|CDRE					(. fixSymbol ( op_CD_RE, t.val.Substring ( 4 ) );					.)
+							|CDHL					(. fixSymbol ( op_CD_HL, t.val.Substring ( 4 ) );					.)
+							|number					(. fixSymbol ( op_C, t.val ); 										.)
+							|real					(. fixSymbol ( op_CR, t.val );										.)
+							|bool					(. fixSymbol ( op_B, t.val ); 										.)
+							|UNISSIGNED				(. fixSymbol ( op_UNISSIGNED, t.val ); 								.)
+						)
+					}
+					.
+
+	
+	/****************************************
+	*
+	* Actions
+	*
+	**/
+	
+	LOAD		= "LOAD"					(. appendByte ( op_LOAD ); 											.)
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|MB						(. appendByte ( op_MB ); appendBytes ( t.val.Substring ( 2 ) );	 	.)
+					|MW						(. appendByte ( op_MW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MD						(. appendByte ( op_MD ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MR						(. appendByte ( op_MR ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|EB						(. appendByte ( op_EB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)					
+					|EW						(. appendByte ( op_EW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|ED						(. appendByte ( op_ED ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|IB						(. appendByte ( op_IB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IW						(. appendByte ( op_IW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IR						(. appendByte ( op_IR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) );		.)
+					|UB						(. appendByte ( op_UB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UW						(. appendByte ( op_UW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UR						(. appendByte ( op_UR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|TON					(. appendByte ( op_TON ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TONS					(. appendByte ( op_TONS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TOF					(. appendByte ( op_TOF ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TOFS					(. appendByte ( op_TOFS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TP						(. appendByte ( op_TP ); appendBytes ( t.val.Substring ( 3 ) );		.)
+					|TPS					(. appendByte ( op_TPS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|REP					(. appendByte ( op_REP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|FEP					(. appendByte ( op_FEP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|CRE					(. appendByte ( op_C_RE ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|CFE					(. appendByte ( op_C_FE ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|CHL					(. appendByte ( op_C_HL ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|CLL					(. appendByte ( op_C_LL ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|CDRE					(. appendByte ( op_CD_RE ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|CDHL					(. appendByte ( op_CD_HL ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+					|real					(. appendByte ( op_CR ); appendBytes ( t.val ); 					.)
+					|bool					(. appendByte ( op_B ); appendBytes ( t.val ); 						.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|FIRSTLOOPBIT			(. appendByte ( op_FIRSTLOOPBIT ); 									.)	
+					|SECONDTRIGGERBIT		(. appendByte ( op_SECONDTRIGGERBIT ); 								.)	
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				.
+				
+	LOADN		= "LOADN"					(. appendByte ( op_LOADN ); 										.)
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) );		.)
+					|TON					(. appendByte ( op_TON ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TONS					(. appendByte ( op_TONS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TOF					(. appendByte ( op_TOF ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TOFS					(. appendByte ( op_TOFS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TP						(. appendByte ( op_TP ); appendBytes ( t.val.Substring ( 3 ) );		.)
+					|TPS					(. appendByte ( op_TPS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|REP					(. appendByte ( op_REP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|FEP					(. appendByte ( op_FEP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|CRE					(. appendByte ( op_C_RE ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|CFE					(. appendByte ( op_C_FE ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|CHL					(. appendByte ( op_C_HL ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|CLL					(. appendByte ( op_C_LL ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|CDRE					(. appendByte ( op_CD_RE ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|CDHL					(. appendByte ( op_CD_HL ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|FIRSTLOOPBIT			(. appendByte ( op_FIRSTLOOPBIT ); 									.)	
+					|SECONDTRIGGERBIT		(. appendByte ( op_SECONDTRIGGERBIT ); 								.)	
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				.
+
+	ISALARMACTIVE		= "ISALARMACTIVE"	(. appendByte ( op_IS_ALARM_ACTIVE ); 								.)
+				(
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+					|real					(. appendByte ( op_CR ); appendBytes ( t.val ); 					.)
+				)
+				.
+				
+	STOREVAR			= "STOREVAR"		(. appendByte ( op_STORE_VAR ); 									.)
+				(
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+				)
+				.
+				
+	VARIABLECHANGE		= "VARIABLECHANGE"	(. appendByte ( op_VARIABLECHANGE ); 								.)
+				(
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+				)
+				.
+				
+	SET 		= 							(. appendByte ( op_SET ); 											.)
+				"SET" 				
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) );		.)
+					|TON					(. appendByte ( op_TON ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TONS					(. appendByte ( op_TONS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TOF					(. appendByte ( op_TOF ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TOFS					(. appendByte ( op_TOFS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TP						(. appendByte ( op_TP ); appendBytes ( t.val.Substring ( 3 ) );		.)
+					|TPS					(. appendByte ( op_TPS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|CRE					(. appendByte ( op_C_RE ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|CFE					(. appendByte ( op_C_FE ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|CHL					(. appendByte ( op_C_HL ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|CLL					(. appendByte ( op_C_LL ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|CDRE					(. appendByte ( op_CD_RE ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|CDHL					(. appendByte ( op_CD_HL ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				).
+				
+	RESET		= 							(. appendByte ( op_RESET ); 										.)
+				"RESET" 			
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) );		.)
+					|TON					(. appendByte ( op_TON ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TONS					(. appendByte ( op_TONS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TOF					(. appendByte ( op_TOF ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TOFS					(. appendByte ( op_TOFS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TP						(. appendByte ( op_TP ); appendBytes ( t.val.Substring ( 3 ) );		.)
+					|TPS					(. appendByte ( op_TPS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				.
+				
+	TOGGLE 		= 							(. appendByte ( op_TOGGLE ); 											.)
+				"TOGGLE" 				
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) );		.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				).
+				
+	STORE		= 							(. appendByte ( op_STORE ); 										.)
+				"STORE" 			
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|MB						(. appendByte ( op_MB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MW						(. appendByte ( op_MW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MD						(. appendByte ( op_MD ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MR						(. appendByte ( op_MR ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|EB						(. appendByte ( op_EB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)					
+					|EW						(. appendByte ( op_EW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|ED						(. appendByte ( op_ED ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) );		.)
+					|UB						(. appendByte ( op_UB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UW						(. appendByte ( op_UW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UR						(. appendByte ( op_UR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|TON					(. appendByte ( op_TON ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TONS					(. appendByte ( op_TONS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TOF					(. appendByte ( op_TOF ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TOFS					(. appendByte ( op_TOFS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TP						(. appendByte ( op_TP ); appendBytes ( t.val.Substring ( 3 ) );		.)
+					|TPS					(. appendByte ( op_TPS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|REP					(. appendByte ( op_REP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|FEP					(. appendByte ( op_FEP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				.				
+				
+				
+	/****************************************
+	*
+	* OPerators
+	*
+	**/
+	
+	
+	Logic		= AND						
+				| OR
+				| ANDNOT
+				| ORNOT
+				| XOR
+				| NOT
+				.
+				
+	Arit		= ADD						
+				| SUB						
+				| MUL						
+				| DIV						
+				.
+				
+	Flow		= EQ						
+				| NEQ
+				| GT
+				| GE
+				| LT
+				| LE
+				| IN
+				| NIN
+				.
+	
+	NOP			= "NOP"						(. appendByte ( op_NOP ); 											.)
+				.		
+				
+	// 
+	// Logical operators
+	
+	AND			= "AND" 					(. appendByte ( op_AND ); 											.)
+				{
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|TON					(. appendByte ( op_TON ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TONS					(. appendByte ( op_TONS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TOF					(. appendByte ( op_TOF ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TOFS					(. appendByte ( op_TOFS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TP						(. appendByte ( op_TP ); appendBytes ( t.val.Substring ( 3 ) );		.)
+					|TPS					(. appendByte ( op_TPS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|REP					(. appendByte ( op_REP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|FEP					(. appendByte ( op_FEP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|bool					(. appendByte ( op_B ); appendBytes ( t.val ); 						.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|FIRSTLOOPBIT			(. appendByte ( op_FIRSTLOOPBIT ); 									.)	
+					|SECONDTRIGGERBIT		(. appendByte ( op_SECONDTRIGGERBIT ); 								.)	
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				}
+				. 
+				
+	ANDNOT		= "ANDNOT" 					(. appendByte ( op_ANDNOT ); .)
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|TON					(. appendByte ( op_TON ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TONS					(. appendByte ( op_TONS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TOF					(. appendByte ( op_TOF ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TOFS					(. appendByte ( op_TOFS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TP						(. appendByte ( op_TP ); appendBytes ( t.val.Substring ( 3 ) );		.)
+					|TPS					(. appendByte ( op_TPS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|REP					(. appendByte ( op_REP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|FEP					(. appendByte ( op_FEP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|bool					(. appendByte ( op_B ); appendBytes ( t.val ); 						.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|FIRSTLOOPBIT			(. appendByte ( op_FIRSTLOOPBIT ); 									.)	
+					|SECONDTRIGGERBIT		(. appendByte ( op_SECONDTRIGGERBIT ); 								.)	
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				. 
+				
+	OR			= "OR"						(. appendByte ( op_OR ); .) 
+				{
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|TON					(. appendByte ( op_TON ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TONS					(. appendByte ( op_TONS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TOF					(. appendByte ( op_TOF ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TOFS					(. appendByte ( op_TOFS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TP						(. appendByte ( op_TP ); appendBytes ( t.val.Substring ( 3 ) );		.)
+					|TPS					(. appendByte ( op_TPS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|REP					(. appendByte ( op_REP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|FEP					(. appendByte ( op_FEP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|bool					(. appendByte ( op_B ); appendBytes ( t.val ); 						.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|FIRSTLOOPBIT			(. appendByte ( op_FIRSTLOOPBIT ); 									.)	
+					|SECONDTRIGGERBIT		(. appendByte ( op_SECONDTRIGGERBIT ); 								.)	
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				}
+				. 
+				
+	ORNOT		= "ORNOT" 					(. appendByte ( op_ORNOT ); .)
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|TON					(. appendByte ( op_TON ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TONS					(. appendByte ( op_TONS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TOF					(. appendByte ( op_TOF ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TOFS					(. appendByte ( op_TOFS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TP						(. appendByte ( op_TP ); appendBytes ( t.val.Substring ( 3 ) );		.)
+					|TPS					(. appendByte ( op_TPS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|REP					(. appendByte ( op_REP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|FEP					(. appendByte ( op_FEP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|bool					(. appendByte ( op_B ); appendBytes ( t.val ); 						.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|FIRSTLOOPBIT			(. appendByte ( op_FIRSTLOOPBIT ); 									.)	
+					|SECONDTRIGGERBIT		(. appendByte ( op_SECONDTRIGGERBIT ); 								.)	
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				. 
+				
+	XOR			= "XOR"						(. appendByte ( op_XOR ); .) 
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|TON					(. appendByte ( op_TON ); appendBytes ( t.val.Substring ( 3 ) ); 	.)
+					|TONS					(. appendByte ( op_TONS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TOF					(. appendByte ( op_TOF ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TOFS					(. appendByte ( op_TOFS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TP						(. appendByte ( op_TP ); appendBytes ( t.val.Substring ( 3 ) );		.)
+					|TPS					(. appendByte ( op_TPS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|REP					(. appendByte ( op_REP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|FEP					(. appendByte ( op_FEP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|bool					(. appendByte ( op_B ); appendBytes ( t.val ); 						.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|FIRSTLOOPBIT			(. appendByte ( op_FIRSTLOOPBIT ); 									.)	
+					|SECONDTRIGGERBIT		(. appendByte ( op_SECONDTRIGGERBIT ); 								.)	
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				. 
+				
+	NOT			= "NOT"						(. appendByte ( op_NOT ); .) 
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|TON					(. appendByte ( op_TON ); appendBytes ( t.val.Substring ( 3 ) ); 	.)
+					|TONS					(. appendByte ( op_TONS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TOF					(. appendByte ( op_TOF ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TOFS					(. appendByte ( op_TOFS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TP						(. appendByte ( op_TP ); appendBytes ( t.val.Substring ( 3 ) );		.)
+					|TPS					(. appendByte ( op_TPS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|REP					(. appendByte ( op_REP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|FEP					(. appendByte ( op_FEP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|bool					(. appendByte ( op_B ); appendBytes ( t.val ); 						.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|FIRSTLOOPBIT			(. appendByte ( op_FIRSTLOOPBIT ); 									.)	
+					|SECONDTRIGGERBIT		(. appendByte ( op_SECONDTRIGGERBIT ); 								.)	
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				. 
+				
+				
+	// 
+	// Arithmentical operators
+	
+	ADD			= "ADD"						(. appendByte ( op_ADD ); .)
+				(
+					MW						(. appendByte ( op_MW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MB						(. appendByte ( op_MB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MD						(. appendByte ( op_MD ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MR						(. appendByte ( op_MR ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|EB						(. appendByte ( op_EB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|EW						(. appendByte ( op_EW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|ED						(. appendByte ( op_ED ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|IB						(. appendByte ( op_IB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IW						(. appendByte ( op_IW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IR						(. appendByte ( op_IR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|UB						(. appendByte ( op_UB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UW						(. appendByte ( op_UW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UR						(. appendByte ( op_UR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+					|real					(. appendByte ( op_CR ); appendBytes ( t.val ); 					.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				. 
+				
+	SUB			= "SUB"						(. appendByte ( op_SUB ); .) 
+				(
+					MW						(. appendByte ( op_MW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MB						(. appendByte ( op_MB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MD						(. appendByte ( op_MD ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MR						(. appendByte ( op_MR ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|EB						(. appendByte ( op_EB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|EW						(. appendByte ( op_EW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|ED						(. appendByte ( op_ED ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|IB						(. appendByte ( op_IB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IW						(. appendByte ( op_IW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IR						(. appendByte ( op_IR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|UB						(. appendByte ( op_UB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UW						(. appendByte ( op_UW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UR						(. appendByte ( op_UR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+					|real					(. appendByte ( op_CR ); appendBytes ( t.val ); 					.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				. 
+
+	MUL			= "MUL" 					(. appendByte ( op_MUL ); .)
+				(
+					MW						(. appendByte ( op_MW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MB						(. appendByte ( op_MB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MD						(. appendByte ( op_MD ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MR						(. appendByte ( op_MR ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|EB						(. appendByte ( op_EB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|EW						(. appendByte ( op_EW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|ED						(. appendByte ( op_ED ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|IB						(. appendByte ( op_IB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IW						(. appendByte ( op_IW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IR						(. appendByte ( op_IR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|UB						(. appendByte ( op_UB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UW						(. appendByte ( op_UW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UR						(. appendByte ( op_UR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+					|real					(. appendByte ( op_CR ); appendBytes ( t.val ); 					.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				. 
+				
+	DIV			= "DIV" 					(. appendByte ( op_DIV ); .)
+				(
+					MW						(. appendByte ( op_MW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MB						(. appendByte ( op_MB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MD						(. appendByte ( op_MD ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MR						(. appendByte ( op_MR ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|EB						(. appendByte ( op_EB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|EW						(. appendByte ( op_EW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|ED						(. appendByte ( op_ED ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|IB						(. appendByte ( op_IB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IW						(. appendByte ( op_IW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IR						(. appendByte ( op_IR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|UB						(. appendByte ( op_UB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UW						(. appendByte ( op_UW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UR						(. appendByte ( op_UR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+					|real					(. appendByte ( op_CR ); appendBytes ( t.val ); 					.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				. 
+
+
+	//
+	// Flow control 
+	
+	EQ			= "EQ"						(. appendByte ( op_EQ ); .) 
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|MD						(. appendByte ( op_MD ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MB						(. appendByte ( op_MB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MW						(. appendByte ( op_MW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MR						(. appendByte ( op_MR ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|EB						(. appendByte ( op_EB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)					
+					|EW						(. appendByte ( op_EW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|ED						(. appendByte ( op_ED ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+					|real					(. appendByte ( op_CR ); appendBytes ( t.val ); 					.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|IB						(. appendByte ( op_IB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IW						(. appendByte ( op_IW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IR						(. appendByte ( op_IR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|UB						(. appendByte ( op_UB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UW						(. appendByte ( op_UW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UR						(. appendByte ( op_UR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|TON					(. appendByte ( op_TON ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TONS					(. appendByte ( op_TONS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TOF					(. appendByte ( op_TOF ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TOFS					(. appendByte ( op_TOFS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TP						(. appendByte ( op_TP ); appendBytes ( t.val.Substring ( 3 ) );		.)
+					|TPS					(. appendByte ( op_TPS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|REP					(. appendByte ( op_REP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|FEP					(. appendByte ( op_FEP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|bool					(. appendByte ( op_B ); appendBytes ( t.val ); 						.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				. 
+	
+	NEQ			= "NEQ"						(. appendByte ( op_NEQ ); .) 
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|MD						(. appendByte ( op_MD ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MB						(. appendByte ( op_MB ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MW						(. appendByte ( op_MW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MR						(. appendByte ( op_MR ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|EB						(. appendByte ( op_EB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)					
+					|EW						(. appendByte ( op_EW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|ED						(. appendByte ( op_ED ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+					|real					(. appendByte ( op_CR ); appendBytes ( t.val ); 					.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|IB						(. appendByte ( op_IB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IW						(. appendByte ( op_IW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IR						(. appendByte ( op_IR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|UB						(. appendByte ( op_UB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UW						(. appendByte ( op_UW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UR						(. appendByte ( op_UR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|TON					(. appendByte ( op_TON ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TONS					(. appendByte ( op_TONS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TOF					(. appendByte ( op_TOF ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|TOFS					(. appendByte ( op_TOFS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|TP						(. appendByte ( op_TP ); appendBytes ( t.val.Substring ( 3 ) );		.)
+					|TPS					(. appendByte ( op_TPS ); appendBytes ( t.val.Substring ( 4 ) );	.)
+					|REP					(. appendByte ( op_REP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|FEP					(. appendByte ( op_FEP ); appendBytes ( t.val.Substring ( 3 ) );	.)
+					|bool					(. appendByte ( op_B ); appendBytes ( t.val ); 						.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				. 
+				
+	GT			= "GT"						(. appendByte ( op_GT ); .) 
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|MD						(. appendByte ( op_MD ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MB						(. appendByte ( op_MB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MW						(. appendByte ( op_MW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MR						(. appendByte ( op_MR ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|EB						(. appendByte ( op_EB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)					
+					|EW						(. appendByte ( op_EW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|ED						(. appendByte ( op_ED ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|IB						(. appendByte ( op_IB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IW						(. appendByte ( op_IW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IR						(. appendByte ( op_IR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|UB						(. appendByte ( op_UB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UW						(. appendByte ( op_UW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UR						(. appendByte ( op_UR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+					|real					(. appendByte ( op_CR ); appendBytes ( t.val ); 					.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				. 
+				
+	GE			= "GE"						(. appendByte ( op_GE ); .) 
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|MD						(. appendByte ( op_MD ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MB						(. appendByte ( op_MB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MW						(. appendByte ( op_MW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MR						(. appendByte ( op_MR ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|EB						(. appendByte ( op_EB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)					
+					|EW						(. appendByte ( op_EW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|ED						(. appendByte ( op_ED ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|IB						(. appendByte ( op_IB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IW						(. appendByte ( op_IW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IR						(. appendByte ( op_IR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|UB						(. appendByte ( op_UB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UW						(. appendByte ( op_UW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UR						(. appendByte ( op_UR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+					|real					(. appendByte ( op_CR ); appendBytes ( t.val ); 					.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				. 
+				
+	LT			= "LT"						(. appendByte ( op_LT ); .) 
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|MD						(. appendByte ( op_MD ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MB						(. appendByte ( op_MB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MW						(. appendByte ( op_MW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MR						(. appendByte ( op_MR ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|EB						(. appendByte ( op_EB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)					
+					|EW						(. appendByte ( op_EW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|ED						(. appendByte ( op_ED ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|IB						(. appendByte ( op_IB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IW						(. appendByte ( op_IW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IR						(. appendByte ( op_IR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|UB						(. appendByte ( op_UB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UW						(. appendByte ( op_UW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UR						(. appendByte ( op_UR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+					|real					(. appendByte ( op_CR ); appendBytes ( t.val ); 					.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				. 
+				
+	LE			= "LE"						(. appendByte ( op_LE ); .) 
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|MD						(. appendByte ( op_MD ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MB						(. appendByte ( op_MB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MW						(. appendByte ( op_MW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MR						(. appendByte ( op_MR ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|EB						(. appendByte ( op_EB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)					
+					|EW						(. appendByte ( op_EW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|ED						(. appendByte ( op_ED ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|IB						(. appendByte ( op_IB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IW						(. appendByte ( op_IW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IR						(. appendByte ( op_IR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|UB						(. appendByte ( op_UB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UW						(. appendByte ( op_UW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UR						(. appendByte ( op_UR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+					|real					(. appendByte ( op_CR ); appendBytes ( t.val ); 					.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				.
+
+	IN			= "IN"						(. appendByte ( op_IN ); .) 
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|MD						(. appendByte ( op_MD ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MB						(. appendByte ( op_MB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MW						(. appendByte ( op_MW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MR						(. appendByte ( op_MR ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|EB						(. appendByte ( op_EB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)					
+					|EW						(. appendByte ( op_EW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|ED						(. appendByte ( op_ED ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|IB						(. appendByte ( op_IB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IW						(. appendByte ( op_IW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IR						(. appendByte ( op_IR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|UB						(. appendByte ( op_UB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UW						(. appendByte ( op_UW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UR						(. appendByte ( op_UR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+					|real					(. appendByte ( op_CR ); appendBytes ( t.val ); 					.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|MD						(. appendByte ( op_MD ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MB						(. appendByte ( op_MB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MW						(. appendByte ( op_MW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MR						(. appendByte ( op_MR ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|EB						(. appendByte ( op_EB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)					
+					|EW						(. appendByte ( op_EW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|ED						(. appendByte ( op_ED ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|IB						(. appendByte ( op_IB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IW						(. appendByte ( op_IW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IR						(. appendByte ( op_IR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|UB						(. appendByte ( op_UB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UW						(. appendByte ( op_UW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UR						(. appendByte ( op_UR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+					|real					(. appendByte ( op_CR ); appendBytes ( t.val ); 					.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				.
+				
+	NIN			= "NIN"						(. appendByte ( op_NIN ); .) 
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|MD						(. appendByte ( op_MD ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MB						(. appendByte ( op_MB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MW						(. appendByte ( op_MW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MR						(. appendByte ( op_MR ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|EB						(. appendByte ( op_EB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)					
+					|EW						(. appendByte ( op_EW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|ED						(. appendByte ( op_ED ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|IB						(. appendByte ( op_IB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IW						(. appendByte ( op_IW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IR						(. appendByte ( op_IR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|UB						(. appendByte ( op_UB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UW						(. appendByte ( op_UW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UR						(. appendByte ( op_UR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+					|real					(. appendByte ( op_CR ); appendBytes ( t.val ); 					.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				(
+					M						(. appendByte ( op_M ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|MD						(. appendByte ( op_MD ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MB						(. appendByte ( op_MB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|MW						(. appendByte ( op_MW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|MR						(. appendByte ( op_MR ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|E						(. appendByte ( op_E ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|EB						(. appendByte ( op_EB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)					
+					|EW						(. appendByte ( op_EW ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|ED						(. appendByte ( op_ED ); appendBytes ( t.val.Substring ( 2 ) );		.)
+					|I						(. appendByte ( op_I ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|IB						(. appendByte ( op_IB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IW						(. appendByte ( op_IW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|IR						(. appendByte ( op_IR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|U						(. appendByte ( op_U ); appendBytes ( t.val.Substring ( 1 ) ); 		.)
+					|UB						(. appendByte ( op_UB ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UW						(. appendByte ( op_UW ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|UR						(. appendByte ( op_UR ); appendBytes ( t.val.Substring ( 2 ) ); 	.)
+					|number					(. appendByte ( op_C ); appendBytes ( t.val ); 						.)
+					|real					(. appendByte ( op_CR ); appendBytes ( t.val ); 					.)
+					|define					(. getSymbol ( t.val, t.line, t.col ); 								.)
+					|UNISSIGNED				(. appendByte ( op_UNISSIGNED ); 									.)
+				)
+				.
+				
+	GOTO		= "GOTO"					(. appendByte ( op_GOTO ); 											.) 
+				(
+					label					(. appendByte ( op_LABEL ); setJump ( t.val.Substring ( 1 ), t.line, t.col );.)
+				)
+				.
+					
+	CALL		= "CALL"					(. appendByte ( op_CALL ); 											.) 
+				(
+					label					(. appendByte ( op_LABEL ); setCall ( t.val.Substring ( 1 ), t.line, t.col );.)
+				)
+				.
+								
+	RESTART		= "RESTART"					(. appendByte ( op_RESTART ); 										.) 
+				.
+END XPLC.
