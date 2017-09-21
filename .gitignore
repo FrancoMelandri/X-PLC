@@ -43,4 +43,7 @@ Temporary Items
 .apdisk
 bin
 obj
+CoCo/src/XPLC/Scanner.cs
+CoCo/src/XPLC/Parser.cs
+
 

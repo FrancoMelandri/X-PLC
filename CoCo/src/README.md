@@ -2,7 +2,7 @@ Launch the command:
 <br/>
 <br/>
 <b>
-$> dotnet run ./frames/xplc.ATG -namespace XPLC -frames ./XPLC
+$> dotnet run ./XPLC/XPLC.atg -namespace XPLC -frames ./XPLC
 </b>
 <br/>
 <br/>
